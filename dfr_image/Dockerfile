@@ -1,7 +1,5 @@
 # docker build -t dfr -f Dockerfile .
 # docker run -it --privileged --net=host dfr
-# in dcontainer
-# ros2 run dfr0592_driver driver
 
 FROM ros:humble
 
@@ -19,10 +17,16 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /colcon && cd /colcon && git clone https://github.com/michalpelka/dfr0592_driver.git && . /opt/ros/humble/setup.sh && colcon build
 
+
 # Source ROS 2 setup files
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 RUN echo "source /colcon/install/setup.bash" >> ~/.bashrc
 
 
+COPY ros_entrypoint.sh /ros_entrypoint.sh
+
+RUN  chmod 755 /ros_entrypoint.sh
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
 # Set up entry point
 CMD ["/bin/bash"]

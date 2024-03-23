@@ -1,0 +1,9 @@
+version: '2'
+services:
+  robot-driver:
+    build: ./dfr_image
+    image: dfr
+    command: "ros2 run dfr0592_driver driver"
+    privileged: true
+    network_mode: host
+    restart: always
