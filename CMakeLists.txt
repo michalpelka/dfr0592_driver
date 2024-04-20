@@ -12,13 +12,15 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 
 find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
 
 add_executable(driver src/driver.cpp)
 target_include_directories(driver PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_compile_features(driver PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-ament_target_dependencies(driver rclcpp geometry_msgs)
+ament_target_dependencies(driver rclcpp geometry_msgs sensor_msgs)
 target_link_libraries(driver i2c)
 install(TARGETS driver
   DESTINATION lib/${PROJECT_NAME})
